@@ -1,5 +1,6 @@
 import std/[strutils, strformat]
 import std/os
+import nimib
 
 type
   Entry* = object
@@ -22,7 +23,9 @@ proc nimPublish*(entry: Entry) =
     quit(1)
 
 proc mdPublish*(entry: Entry) =
-  raise newException(IOError, "Markdown not yet supported. We advise listening to elevators music while we are working on this feature.")
+  nbText entry.path.readFile
+  nbDoc.filename = entry.path.extractFilename
+  nbSave
 
 proc publish*(entry: Entry) =
   let splitted = entry.path.splitFile()
